@@ -50,8 +50,9 @@ namespace OsEngine.OsTrader.Gui
             this.Focus();
 
             GlobalGUILayout.Listen(this, "botStationUi");
-        }
 
+        }
+        
         /// <summary>
         /// changed the size of the tabControl with the names of robots
         /// изменился размер табБокса с именами роботов
@@ -132,7 +133,7 @@ namespace OsEngine.OsTrader.Gui
                 e.Cancel = true;
                 return;
             }
-
+            
             ServerMaster.AbortAll();
         }
 

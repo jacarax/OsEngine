@@ -61,7 +61,8 @@ namespace OsEngine.Journal
             ComboBoxChartType.Items.Add("Absolute");
             ComboBoxChartType.Items.Add("Persent");
             ComboBoxChartType.SelectedItem = "Persent";
-            
+            ComboBoxChartType.SelectionChanged += ComboBoxChartType_SelectionChanged;
+
             _currentCulture = OsLocalization.CurCulture;
 
             TabControlPrime.SelectionChanged += TabControlPrime_SelectionChanged;
@@ -108,7 +109,6 @@ namespace OsEngine.Journal
             this.Focus();
 
             string botNames = "";
-
             for (int i = 0; i < botsJournals.Count; i++)
             {
                 botNames += botsJournals[i].BotName;
@@ -116,9 +116,7 @@ namespace OsEngine.Journal
 
             _journalName = botNames + startProgram.ToString();
 
-            LoadSettings();
-
-            ComboBoxChartType.SelectionChanged += ComboBoxChartType_SelectionChanged;
+            CheckLeftPanel();
 
             GlobalGUILayout.Listen(this, "Journal2Ui_" + startProgram.ToString() + botNames);
         }
@@ -233,7 +231,6 @@ namespace OsEngine.Journal
         private void ComboBoxChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RePaint();
-            SaveSettings();
         }
 
         /// <summary>
@@ -2454,13 +2451,13 @@ namespace OsEngine.Journal
         private void ButtonHideLeftPanel_Click(object sender, RoutedEventArgs e)
         {
             HideLeftPanel();
-            SaveSettings();
+            SaveLeftPanelPosition();
         }
 
         private void ButtonShowLeftPanel_Click(object sender, RoutedEventArgs e)
         {
             ShowLeftPanel();
-            SaveSettings();
+            SaveLeftPanelPosition();
         }
 
         private void HideLeftPanel()
@@ -2490,7 +2487,7 @@ namespace OsEngine.Journal
 
         private bool _leftPanelIsHide;
 
-        private void LoadSettings()
+        private void CheckLeftPanel()
         {
             if (!File.Exists(@"Engine\LayoutJournal" + _journalName + ".txt"))
             {
@@ -2502,13 +2499,6 @@ namespace OsEngine.Journal
                 using (StreamReader reader = new StreamReader(@"Engine\LayoutJournal" + _journalName + ".txt"))
                 {
                     _leftPanelIsHide = Convert.ToBoolean(reader.ReadLine());
-                    string profitType = reader.ReadLine();
-
-                    if(string.IsNullOrEmpty(profitType) == false)
-                    {
-                        ComboBoxChartType.SelectedItem = profitType;
-                    }
-
                     reader.Close();
                 }
             }
@@ -2527,14 +2517,14 @@ namespace OsEngine.Journal
             }
         }
 
-        private void SaveSettings()
+        private void SaveLeftPanelPosition()
         {
             try
             {
                 using (StreamWriter writer = new StreamWriter(@"Engine\LayoutJournal" + _journalName + ".txt", false))
                 {
                     writer.WriteLine(_leftPanelIsHide);
-                    writer.WriteLine(ComboBoxChartType.SelectedItem.ToString());
+
                     writer.Close();
                 }
             }

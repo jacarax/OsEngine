@@ -82,7 +82,7 @@ namespace OsEngine.OsTrader.Gui
             ButtonUpdateBot.Content = OsLocalization.Trader.Label159;
             ButtonUpdateBot.ToolTip = OsLocalization.Trader.Label160;
         }
-
+        
         void TesterUi_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             AcceptDialogUi ui = new AcceptDialogUi(OsLocalization.Trader.Label48);

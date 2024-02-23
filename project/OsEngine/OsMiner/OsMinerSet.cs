@@ -436,32 +436,22 @@ namespace OsEngine.OsMiner
         /// </summary>
         void _gridPatternsInSet_Click(object sender, EventArgs e)
         {
-            if (_gridPatternsInSet.SelectedCells.Count == 0)
+            if (_gridPatternsInSet.SelectedCells.Count != 0)
             {
-                return;
+                int activPattern = _gridPatternsInSet.SelectedCells[0].RowIndex;
+                if (activPattern < Patterns.Count && _activPatternNum != activPattern)
+                {
+                    if (_activPatternNum < 0)
+                    {
+                        _activPatternNum = 0;
+                    }
+
+                    Patterns[_activPatternNum].StopPaint();
+                    _activPatternNum = activPattern;
+
+                    Patterns[_activPatternNum].Paint(_hostChart, _rectChart);
+                }
             }
-            int activPattern = _gridPatternsInSet.SelectedCells[0].RowIndex;
-
-            if (activPattern >= Patterns.Count)
-            {
-                return;
-            }
-
-            if(_activPatternNum == activPattern)
-            {
-                return;
-            }
-
-
-            if (_activPatternNum < 0)
-            {
-                _activPatternNum = 0;
-            }
-
-            Patterns[_activPatternNum].StopPaint();
-            _activPatternNum = activPattern;
-
-            Patterns[_activPatternNum].Paint(_hostChart, _rectChart);
         }
 
         /// <summary>

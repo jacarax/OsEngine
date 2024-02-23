@@ -63,6 +63,7 @@ namespace OsEngine
             try
             {
                 int winVersion = Environment.OSVersion.Version.Major;
+                
                 if (winVersion < 6)
                 {
                     MessageBox.Show(OsLocalization.MainWindow.Message1);
@@ -115,10 +116,10 @@ namespace OsEngine
 
             ImageAlor.MouseEnter += ImageAlor_MouseEnter;
             ImageAlor2.MouseLeave += ImageAlor_MouseLeave;
-            ImageAlor2.MouseDown += ImageAlor2_MouseDown;
+            ImageAlor2.MouseDown += hyperlink_to_the_website;
         }
 
-        private void ImageAlor2_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void hyperlink_to_the_website(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://www.alorbroker.ru/open?pr=L0745") { UseShellExecute = true });
         }
@@ -191,24 +192,24 @@ namespace OsEngine
                 {
                     return false;
                 }
-                int releaseKey = Convert.ToInt32(ndpKey.GetValue("Release"));
+                int relKey = Convert.ToInt32(ndpKey.GetValue("Release"));
 
-                if (releaseKey >= 393295)
+                if (relKey >= 393295)
                 {
                     //"4.6 or later";
                     return true;
                 }
-                if ((releaseKey >= 379893))
+                if ((relKey >= 379893))
                 {
                     //"4.5.2 or later";
                     return true;
                 }
-                if ((releaseKey >= 378675))
+                if ((relKey >= 378675))
                 {
                     //"4.5.1 or later";
                     return true;
                 }
-                if ((releaseKey >= 378389))
+                if ((relKey >= 378389))
                 {
                     MessageBox.Show(OsLocalization.MainWindow.Message4);
                     return false;
@@ -302,23 +303,18 @@ namespace OsEngine
 
             Process.GetCurrentProcess().Kill();
         }
-
+        private TesterUi candleOneUi;
+        /// <summary>
+        /// Функция перехода к форме тестирования
+        /// </summary>
         private void ButtonTesterCandleOne_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Hide();
-                TesterUi candleOneUi = new TesterUi();
-                candleOneUi.ShowDialog();
-                Close();
-                ProccesIsWorked = false;
-                Thread.Sleep(5000);
-            }
-            catch (Exception error)
-            {
-                MessageBox.Show(error.ToString());
-            }
-            Process.GetCurrentProcess().Kill();
+     
+            candleOneUi = new TesterUi();
+            Hide();
+            candleOneUi.Show();
+            candleOneUi.Closing += delegate { _settingsUi = null; Show(); };
+            
         }
 
         private void ButtonTesterLight_Click(object sender, RoutedEventArgs e)
@@ -343,10 +339,10 @@ namespace OsEngine
         {
             try
             {
-                Hide();
+                _window.Hide();
                 RobotUi candleOneUi = new RobotUi();
                 candleOneUi.ShowDialog();
-                Close();
+                _window.Close();
                 ProccesIsWorked = false;
                 Thread.Sleep(5000);
             }
@@ -489,7 +485,8 @@ namespace OsEngine
             {
                 _settingsUi = new PrimeSettingsMasterUi();
                 _settingsUi.Show();
-                _settingsUi.Closing += delegate { _settingsUi = null; };
+                _settingsUi.Closing += delegate { _settingsUi = null;  };
+                
             }
             else
             {

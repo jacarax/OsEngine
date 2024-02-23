@@ -218,6 +218,11 @@ namespace OsEngine.Market.Servers.Tester
             this.Focus();
         }
 
+        public TesterServerUi()
+        {
+            TextBoxStartDepozit.Text = "0";
+        }
+
         private CultureInfo _currentCulture;
 
         /// <summary>

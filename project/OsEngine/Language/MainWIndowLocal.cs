@@ -10,7 +10,7 @@ namespace OsEngine.Language
 
         public string Title => OsLocalization.ConvertToLocString(
             "Eng:Main_"+
-            "Ru:Главное меню_");
+            "Ru:меню_");
 
         public string BlockDataLabel => OsLocalization.ConvertToLocString(
             "Eng:Work with data_"+
